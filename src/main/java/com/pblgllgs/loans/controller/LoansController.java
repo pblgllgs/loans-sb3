@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.*;
         description = "CRUD REST APIs in EazyBank to CREATE, UPDATE, FETCH AND DELETE loan details"
 )
 @RestController
-@RequestMapping(path = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(path = "/api/v1/loans", produces = {MediaType.APPLICATION_JSON_VALUE})
 @AllArgsConstructor
 @Validated
 public class LoansController {
@@ -60,7 +60,7 @@ public class LoansController {
             )
     }
     )
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<ResponseDto> createLoan(@RequestParam
                                                   @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
                                                   String mobileNumber) {
@@ -88,7 +88,7 @@ public class LoansController {
             )
     }
     )
-    @GetMapping("/fetch")
+    @GetMapping
     public ResponseEntity<LoansDto> fetchLoanDetails(@RequestParam
                                                      @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
                                                      String mobileNumber) {
@@ -118,7 +118,7 @@ public class LoansController {
             )
     }
     )
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<ResponseDto> updateLoanDetails(@Valid @RequestBody LoansDto loansDto) {
         boolean isUpdated = iLoansService.updateLoan(loansDto);
         if(isUpdated) {
@@ -154,7 +154,7 @@ public class LoansController {
             )
     }
     )
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<ResponseDto> deleteLoanDetails(@RequestParam
                                                          @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
                                                          String mobileNumber) {
