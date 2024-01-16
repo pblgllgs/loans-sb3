@@ -8,6 +8,7 @@ package com.pblgllgs.loans.controller;
 
 import com.pblgllgs.loans.constants.LoansConstants;
 import com.pblgllgs.loans.dto.ErrorResponseDto;
+import com.pblgllgs.loans.dto.LoansContactInfoDto;
 import com.pblgllgs.loans.dto.LoansDto;
 import com.pblgllgs.loans.dto.ResponseDto;
 import com.pblgllgs.loans.service.ILoansService;
@@ -20,8 +21,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,13 +41,16 @@ import org.springframework.web.bind.annotation.*;
 )
 @RestController
 @RequestMapping(path = "/api/v1/loans", produces = {MediaType.APPLICATION_JSON_VALUE})
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Validated
 public class LoansController {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(LoansController.class);
 
-    private ILoansService iLoansService;
+    @Autowired
+    private LoansContactInfoDto loansContactInfoDto;
+
+    private final ILoansService iLoansService;
 
     @Operation(
             summary = "Create Loan REST API",
@@ -175,6 +181,32 @@ public class LoansController {
                     .status(HttpStatus.EXPECTATION_FAILED)
                     .body(new ResponseDto(LoansConstants.STATUS_417, LoansConstants.MESSAGE_417_DELETE));
         }
+    }
+
+    @Operation(
+            summary = "Get Contact Info",
+            description = "Contact Info details that can be reached out in case of any issues"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
+    @GetMapping("/contact-info")
+    public ResponseEntity<LoansContactInfoDto> getContactInfo() {
+        LOGGER.debug("Invoked Loans contact-info API");
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(loansContactInfoDto);
     }
 
 }
