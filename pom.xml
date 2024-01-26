@@ -37,11 +37,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.23</version>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
@@ -72,6 +67,11 @@
             <groupId>io.opentelemetry.javaagent</groupId>
             <artifactId>opentelemetry-javaagent</artifactId>
             <version>${otelVersion}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
@@ -106,7 +106,7 @@
                 <version>3.3.2</version>
                 <configuration>
                     <to>
-                        <image>pblgllgs/${project.artifactId}-sb3:v3</image>
+                        <image>pblgllgs/${project.artifactId}-sb3:v3-k8s</image>
                     </to>
                 </configuration>
             </plugin>
