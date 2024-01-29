@@ -7,3 +7,7 @@ spring:
     active: local
   config:
     import: optional:configserver:http://${CONFIG_SERVER_HOST:localhost}:8071/
+  cloud:
+    kubernetes:
+      discovery:
+        all-namespaces: true
